@@ -12,7 +12,7 @@ setup(
     license='MIT',
     author='Technical Heist',
     author_email='contact@technicalheist.com',
-    url='https://github.com/technicalheist/pg-db-helpers.git',
+    url='https://github.com/technicalheist/mysqldbutils.git',
     keywords=['MySQL', 'database', 'CRUD', 'utility'],
     classifiers=[
         'Development Status :: 3 - Alpha',

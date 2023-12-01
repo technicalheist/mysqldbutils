@@ -1,8 +1,0 @@
-setup.py
-mysqlutils/__init__.py
-mysqlutils/main.py
-mysqlutils.egg-info/PKG-INFO
-mysqlutils.egg-info/SOURCES.txt
-mysqlutils.egg-info/dependency_links.txt
-mysqlutils.egg-info/requires.txt
-mysqlutils.egg-info/top_level.txt
