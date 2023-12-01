@@ -8,7 +8,16 @@ def get_database_url(host, port, database_name, username, password):
     DATABASE_URL_MYSQL = f"mysql+mysqlconnector://{username}:{encoded_password}@{host}:{port}/{database_name}"
     return DATABASE_URL_MYSQL
 
-def create_table_mysql(database_url, table_name, columns):
+def list_tables(database_url):
+    connection = mysql.connector.connect(database_url)
+    cursor = connection.cursor()
+    cursor.execute("SHOW TABLES")
+    tables = [table[0] for table in cursor.fetchall()]
+    cursor.close()
+    connection.close()
+    return tables
+
+def create_table(database_url, table_name, columns):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -40,7 +49,7 @@ def create_table_mysql(database_url, table_name, columns):
             connection.close()
             print("Connection closed.")
 
-def insert_mysql(database_url, table_name, data):
+def insert(database_url, table_name, data):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -73,7 +82,7 @@ def insert_mysql(database_url, table_name, data):
             connection.close()
             print("Connection closed.")
 
-def insert_many_mysql(database_url, table_name, data_list):
+def insert_many(database_url, table_name, data_list):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -112,7 +121,7 @@ def insert_many_mysql(database_url, table_name, data_list):
             connection.close()
             print("Connection closed.")
 
-def select_all_mysql(database_url, table_name):
+def select_all(database_url, table_name):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -145,7 +154,7 @@ def select_all_mysql(database_url, table_name):
             connection.close()
             print("Connection closed.")
 
-def select_with_pagination_mysql(database_url, table_name, from_index, to_index):
+def select_with_pagination(database_url, table_name, from_index, to_index):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -178,7 +187,7 @@ def select_with_pagination_mysql(database_url, table_name, from_index, to_index)
             connection.close()
             print("Connection closed.")
 
-def select_by_column_mysql(database_url, table_name, column_name, column_value):
+def select_by_column(database_url, table_name, column_name, column_value):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -211,7 +220,7 @@ def select_by_column_mysql(database_url, table_name, column_name, column_value):
             connection.close()
             print("Connection closed.")
 
-def select_mysql(database_url, table_name, where_dict):
+def select(database_url, table_name, where_dict):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -246,7 +255,7 @@ def select_mysql(database_url, table_name, where_dict):
             connection.close()
             print("Connection closed.")
 
-def update_mysql(database_url, table_name, update_dict, where_dict):
+def update(database_url, table_name, update_dict, where_dict):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -280,7 +289,7 @@ def update_mysql(database_url, table_name, update_dict, where_dict):
             connection.close()
             print("Connection closed.")
 
-def delete_mysql(database_url, table_name, where_dict):
+def delete(database_url, table_name, where_dict):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -313,7 +322,7 @@ def delete_mysql(database_url, table_name, where_dict):
             connection.close()
             print("Connection closed.")
 
-def truncate_mysql(database_url, table_name):
+def truncate(database_url, table_name):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -344,7 +353,7 @@ def truncate_mysql(database_url, table_name):
             connection.close()
             print("Connection closed.")
 
-def delete_table_mysql(database_url, table_name):
+def delete_table(database_url, table_name):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
@@ -375,7 +384,7 @@ def delete_table_mysql(database_url, table_name):
             connection.close()
             print("Connection closed.")
 
-def sql_query_mysql(database_url, raw_sql_query):
+def sql_query(database_url, raw_sql_query):
     try:
         # Establish a connection to the MySQL server
         connection = mysql.connector.connect(database_url)
