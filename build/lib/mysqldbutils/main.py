@@ -3,13 +3,17 @@ from urllib.parse import quote
 
 
 def get_database_url(host, port, database_name, username, password):
-    # URL encode the password
-    encoded_password = quote(password, safe='')
-    DATABASE_URL_MYSQL = f"mysql+mysqlconnector://{username}:{encoded_password}@{host}:{port}/{database_name}"
-    return DATABASE_URL_MYSQL
+    database_url = {
+    "host": host,
+    "user": username,
+    "password": password,
+    "database": database_name,
+    "port": port
+    }
+    return database_url
 
 def list_tables(database_url):
-    connection = mysql.connector.connect(database_url)
+    connection = mysql.connector.connect(**database_url)
     cursor = connection.cursor()
     cursor.execute("SHOW TABLES")
     tables = [table[0] for table in cursor.fetchall()]
@@ -20,7 +24,7 @@ def list_tables(database_url):
 def create_table(database_url, table_name, columns):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -44,7 +48,7 @@ def create_table(database_url, table_name, columns):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -52,7 +56,7 @@ def create_table(database_url, table_name, columns):
 def insert(database_url, table_name, data):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -77,7 +81,7 @@ def insert(database_url, table_name, data):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -85,7 +89,7 @@ def insert(database_url, table_name, data):
 def insert_many(database_url, table_name, data_list):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -116,7 +120,7 @@ def insert_many(database_url, table_name, data_list):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -124,7 +128,7 @@ def insert_many(database_url, table_name, data_list):
 def select_all(database_url, table_name):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -149,7 +153,7 @@ def select_all(database_url, table_name):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -157,7 +161,7 @@ def select_all(database_url, table_name):
 def select_with_pagination(database_url, table_name, from_index, to_index):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -182,7 +186,7 @@ def select_with_pagination(database_url, table_name, from_index, to_index):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -190,7 +194,7 @@ def select_with_pagination(database_url, table_name, from_index, to_index):
 def select_by_column(database_url, table_name, column_name, column_value):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -215,7 +219,7 @@ def select_by_column(database_url, table_name, column_name, column_value):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -223,7 +227,7 @@ def select_by_column(database_url, table_name, column_name, column_value):
 def select(database_url, table_name, where_dict):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -250,7 +254,7 @@ def select(database_url, table_name, where_dict):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -258,7 +262,7 @@ def select(database_url, table_name, where_dict):
 def update(database_url, table_name, update_dict, where_dict):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -284,7 +288,7 @@ def update(database_url, table_name, update_dict, where_dict):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -292,7 +296,7 @@ def update(database_url, table_name, update_dict, where_dict):
 def delete(database_url, table_name, where_dict):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -317,7 +321,7 @@ def delete(database_url, table_name, where_dict):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -325,7 +329,7 @@ def delete(database_url, table_name, where_dict):
 def truncate(database_url, table_name):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -348,7 +352,7 @@ def truncate(database_url, table_name):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -356,7 +360,7 @@ def truncate(database_url, table_name):
 def delete_table(database_url, table_name):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -379,7 +383,7 @@ def delete_table(database_url, table_name):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
@@ -387,7 +391,7 @@ def delete_table(database_url, table_name):
 def sql_query(database_url, raw_sql_query):
     try:
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(database_url)
+        connection = mysql.connector.connect(**database_url)
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()
@@ -411,7 +415,7 @@ def sql_query(database_url, raw_sql_query):
 
     finally:
         # Close the cursor and connection
-        if connection:
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed.")
